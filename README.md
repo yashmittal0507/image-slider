@@ -1,3 +1,5 @@
+The Live Demo of the application can be found here:"https://image-slider-eaffb.firebaseapp.com/"
+
 To run the Project follow the below steps:
 1.Go to the Project Directory and type npm install command in the terminal
 2.After the Dependencies have been installed type 'npm-start' in the terminal
