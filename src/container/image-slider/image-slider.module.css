@@ -1,9 +1,10 @@
 .imageSlider{
-  max-width:1000px;
+  
   position: relative;
   margin: auto;
   overflow:hidden;
   white-space: nowrap;
+  
 }
 
 .imageNumber {
@@ -16,3 +17,10 @@
   font-weight: bold;
 }
 
+
+.thumbnailWrapper{
+  display:flex;
+  flex-wrap:wrap;
+  bottom:0px;
+  justify-content: center;
+}

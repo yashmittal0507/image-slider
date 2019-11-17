@@ -4,6 +4,7 @@ import classes from './image-slider.module.css';
 import RightArrow from '../../components/Arrows/rightArrow/rightArrow';
 import LeftArrow from '../../components/Arrows/leftArrow/leftArrow';
 import SingleSlide from '../../components/single-slide/single-slide';
+import ImageThumbnail from '../../components/ImageThumbnail/image-thumbnail';
 class ImageSlider extends Component {
   constructor(props) {
     super(props);
@@ -16,7 +17,8 @@ class ImageSlider extends Component {
     this.divRef = React.createRef();
   }
 
-  nextImageHandler = () => {  // a function that runs when we click the right arrow
+  nextImageHandler = () => { 
+    // a function that runs when we click the right arrow
     if (this.state.currentImageIndex === this.state.images.length - 1) { //checks if we are on the last image
       return this.setState({
         currentImageIndex: 0,
@@ -26,26 +28,58 @@ class ImageSlider extends Component {
     }
     this.setState(prevState => ({ 
       currentImageIndex: prevState.currentImageIndex + 1,
-      transformImageProperty: prevState.transformImageProperty + -(this.slideWidth()), //gets the client width based on the device size
+      transformImageProperty: prevState.transformImageProperty -(this.slideWidth()), //gets the client width based on the device size
       number: prevState.number + 1
     }))
+    console.log("abc",this.state); 
   }
 
   previousImageHandler = () => {
+    
     if (this.state.currentImageIndex === 0) { //checking if this the first image on the screen
       return;
     }
     this.setState(prevState => ({
       currentImageIndex: prevState.currentImageIndex - 1,
-      translattransformImagePropertyeValue: prevState.transformImageProperty + (this.slideWidth()),
+      transformImageProperty: prevState.transformImageProperty + (this.slideWidth()),
       number: prevState.number - 1
     }));
+    console.log(this.state);
   }
   slideWidth = () => {
-    console.log(this.divRef.current.clientWidth);
     return this.divRef.current.clientWidth;
   }
 
+  thumbnailClickHandler =index=>{
+    console.log("myindex",this.divRef);
+    if(index===this.state.currentImageIndex){
+      return;
+    }
+   
+    if(index>this.state.currentImageIndex){
+      this.setState(prevState => ({
+      
+        currentImageIndex: index,
+        transformImageProperty: -(((index)*this.slideWidth())), 
+        number: (index+1)
+      }));
+    }
+    else if(index<this.state.currentImageIndex){
+      this.setState(prevState => ({
+      
+        currentImageIndex: index,
+        transformImageProperty: ((prevState.currentImageIndex-index)*this.slideWidth())+prevState.transformImageProperty, 
+        number: (index+1)
+      }));
+    }
+  
+   
+    
+  }
+
+  componentDidUpdate(){
+    console.log(this.state);
+  }
   render() {
 
     return (
@@ -57,10 +91,10 @@ class ImageSlider extends Component {
 
         <RightArrow goNext={this.nextImageHandler} />
         <LeftArrow goBack={this.previousImageHandler} />
-        <div className={classes.imageNumber}>{this.state.number}/{this.state.images.length}</div>
+        <div className={[classes.imageNumber,classes.imageWrapper].join(' ')}>{this.state.number}/{this.state.images.length}</div>
         <div style={{
           transform: `translateX(${this.state.transformImageProperty}px)`,
-          transition: 'transform ease-out 0.45s'
+          transition: 'transform ease-out 0.5s'
         }} ref={this.divRef}>
           {/* Each image is sent down to the child slide and the transform property just shifts one image based 
           on the client width which varies for different device*/ }
@@ -68,7 +102,11 @@ class ImageSlider extends Component {
             return <SingleSlide key={index} image={img} />
           })}
         </div>
-
+          <div className={classes.thumbnailWrapper}>
+          {this.state.images.map((img, index) => {  
+            return <ImageThumbnail key={index} image={img} getThumbnailClicked={()=>this.thumbnailClickHandler(index)}/>
+          })}
+          </div>
       </div>
 
 
