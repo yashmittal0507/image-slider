@@ -31,7 +31,6 @@ class ImageSlider extends Component {
       transformImageProperty: prevState.transformImageProperty -(this.slideWidth()), //gets the client width based on the device size
       number: prevState.number + 1
     }))
-    console.log("abc",this.state); 
   }
 
   previousImageHandler = () => {
@@ -44,14 +43,15 @@ class ImageSlider extends Component {
       transformImageProperty: prevState.transformImageProperty + (this.slideWidth()),
       number: prevState.number - 1
     }));
-    console.log(this.state);
+    
   }
   slideWidth = () => {
     return this.divRef.current.clientWidth;
   }
 
   thumbnailClickHandler =index=>{
-    console.log("myindex",this.divRef);
+    
+
     if(index===this.state.currentImageIndex){
       return;
     }
@@ -76,12 +76,7 @@ class ImageSlider extends Component {
    
     
   }
-
-  componentDidUpdate(){
-    console.log(this.state);
-  }
   render() {
-
     return (
 
       <div className={classes.imageSlider}>

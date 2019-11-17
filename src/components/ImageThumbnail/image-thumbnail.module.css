@@ -6,6 +6,6 @@ padding: 5px;
 width: 150px;
 cursor:pointer;
 }
-.thumbnail:hover{
+.thumbnail:active,.thumbnail:hover{
     box-shadow: 0 0 2px 1px black;
-}
+}  
